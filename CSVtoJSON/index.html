@@ -1,0 +1,86 @@
+<!doctype html>
+<html>
+
+<head>
+	<meta charset=utf-8>
+	<meta name=description content="">
+	<title>Convertisseur CSV -> JSON personnalisé</title>
+	<meta name=viewport content="width=device-width, initial-scale=1">
+	<script src="papaparse.js"></script>
+	<style>
+	
+	html, body{
+		width: 100%;
+		height: 100%;
+		margin: 0; padding: 0;
+		box-sizing: border-box;
+
+		background-color: #111;
+		color: #2ecc71;
+
+		display: flex;
+		flex-direction: row;
+	}
+
+	section{
+		width: 50%;
+	}
+
+	*, *:after, *:before{
+		box-sizing: inherit;
+		background-color: inherit;
+		color: inherit;
+	}
+
+	textarea {
+		display: block;
+		width: 100%;
+	}
+
+	input::placeholder {
+		color: #777;
+	}
+
+	</style>
+</head>
+
+<body>
+	<section>
+		<input style="width:100%" type="text" id="name_conf" placeholder="Nom du fichier de configuration" required>
+		<input style="width:100%" type="text" id="commentaires_conf" placeholder="Commentaire pour cette configuration">
+		<textarea id="inputStruct" style="height:50%" placeholder="Structure désiré pour un élément"></textarea>
+		<button onclick="addRegExpRule()">Nouvelle règle</button>
+		<button onclick="saveConfiguration()">Sauvegarder configuration</button>
+		<label for="files">Charger une configuration</label>
+		<input id="files" onchange="loadConfiguration(this)" style="visibility:hidden;" type="file">
+
+		<table>
+			<thead>
+				<tr>
+					<td>Actif?</td>
+					<td>clé JSON</td>
+					<td>RegExp</td>
+					<td>Remplacer par</td>
+				</tr>
+			</thead>
+			<tbody id="tablebody">
+				<tr>
+					<td><input type="checkbox" onchange="refresh()"></td>
+					<td><input type="text" data-text="jsonkey" placeholder="name, title, ..."></td>
+					<td><input type="text" data-text="regexp" placeholder="\[(.*?)\]" minlength="1"></td>
+					<td><input type="text" data-text="replace" placeholder="<i>$1</i>"></td>
+				</tr>
+			</tbody>
+		</table>
+	</section>
+
+	<section>
+		<input type="file" id="inputcsv">
+		<button onclick="letsParse()">Let's PapaPARSE</button>
+		<button onclick="downloadFinal()">Télécharger JSON converti</button>
+		<textarea id="outputJSON" style="height:95%"></textarea>
+	</section>
+
+	<script src="app.js"></script>
+</body>
+</html>
