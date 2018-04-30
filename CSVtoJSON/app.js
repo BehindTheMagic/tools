@@ -86,7 +86,7 @@ function refresh(){
 }
 
 function applyStructure(wipJSON){
-	// Grosso modo: évaluation de code pour réaliser un JSON.parse 
+	// Grosso modo: évaluation de code pour réaliser un JSON.parse
 	// avec data comme variable de contexte
 
 	let structure = new Function('data', 'DROP', 'SKIP', 'return'  + inputStruct.value);
@@ -139,7 +139,7 @@ function applyStructure(wipJSON){
 		// Projection des données sur la nouvelle structure
 		// en fournissant les gestionnaires _DROP et _SKIP.
 		let newEl = structure(el, _DROP, _SKIP);
-		
+
 		// Doit on délaisser ces nouvelles données : que vaut DROPstate ?
 		if (DROPstate) { continue }
 
@@ -150,7 +150,7 @@ function applyStructure(wipJSON){
 
 		results.push(newEl);
 	}
-	
+
 	return results;
 }
 
@@ -159,8 +159,8 @@ function applyRegex(wipJSON){
 		let inputs = tablebody.children[i].querySelectorAll('input');
 
 		// Reset du message d'erreur personnalisé pour éviter les erreurs de validation.
-		inputs[2].setCustomValidity("");		
-		
+		inputs[2].setCustomValidity("");
+
 		if (!inputs[0].checked) {
 			// On passe à la suite si le règle est décochée.
 			inputs[2].required = false;
@@ -175,7 +175,7 @@ function applyRegex(wipJSON){
 			// en indiquant que la règle n'est pas traité.
 				inputs[2].setCustomValidity("RegExp non traité car vide.");
 				inputs[2].reportValidity();
-				continue; 
+				continue;
 		}
 
 		let JSONkeys = inputs[1].value;
@@ -191,8 +191,10 @@ function applyRegex(wipJSON){
 
 		for(let el of wipJSON){
 			for(let JSONkey of JSONkeys){
+				if(el[JSONkey]){
 				// toString pour être sûr que la méthode replace existe
 				el[JSONkey] = el[JSONkey].toString().replace(regex, replacement);
+				}
 			}
 		}
 	}
